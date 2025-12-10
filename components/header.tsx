@@ -1,53 +1,52 @@
 import Link from "next/link";
+import { Outfit } from "next/font/google";
+
 import { Search } from "lucide-react"
 
 import {
-    InputGroup,
-    InputGroupAddon,
-    InputGroupInput,
-} from "@/components/ui/input-group"
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
 
+
+const outfit = Outfit({
+    subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700"],
+});
 
 export default function Header() {
     return (
         <header className="h-16 w-full flex items-stretch">
-            <div className="flex items-center justify-center w-60 bg-red-400">
-                <Link href="/">
-                    Cinemania
+            <div className="flex items-center justify-start px-4 w-40 text-3xl">
+                <Link href="/" className={outfit.className} style={{ fontWeight: 500 }}>
+                    cinemania
                 </Link>
             </div>
 
-            <div className="flex items-center justify-end flex-1 bg-red-300 gap-12 pr-12">
-                <Link href="/discover">
+            <div className={`flex items-center justify-center flex-1 gap-12 ${outfit.className}`} style={{ fontWeight: 300 }}>
+                <Search />
+                <Link href="/discover" className="px-4 py-2 rounded-3xl transition hover:bg-red-700/20">
                     Discover
                 </Link>
-                <Link href="/library">
+                <Link href="/library" className="px-4 py-2 rounded-3xl transition hover:bg-red-700/20">
                     Library
                 </Link>
-            </div>
-
-            <div className="flex items-center justify-center w-120">
-                <InputGroup className="w-100 rounded-full h-12">
-                    <InputGroupInput placeholder="Search..." />
-                    <InputGroupAddon>
-                        <Search />
-                    </InputGroupAddon>
-                    {/* <InputGroupAddon align="inline-end">12 results</InputGroupAddon> */}
-                </InputGroup>
-            </div>
-
-            <div className="flex items-center justify-start flex-1 bg-red-300 gap-12 pl-12">
-                <Link href="/calendar">
+                <Link href="/calendar" className="px-4 py-2 rounded-3xl transition hover:bg-red-700/20">
                     Calendar
                 </Link>
-                <Link href="/insights">
+                <Link href="/insights" className="px-4 py-2 rounded-3xl transition hover:bg-red-700/20">
                     Insights
                 </Link>
             </div>
 
-            <div className="flex items-center justify-center w-60 bg-green-400">
+
+            <div className={`flex items-center justify-end px-4 w-40 ${outfit.className}`} style={{ fontWeight: 300 }}>
                 <Link href="/profile">
-                    Profile
+                    <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                        <AvatarFallback>?</AvatarFallback>
+                    </Avatar>
                 </Link>
             </div>
         </header>
