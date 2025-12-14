@@ -1,0 +1,1 @@
+export const SIGNUP_REDIRECT_URL = 'http://localhost:3000/'
