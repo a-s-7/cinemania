@@ -1,65 +1,43 @@
 'use client'
 
-import { AlertCircleIcon, MailCheckIcon, Send } from "lucide-react";
+import { AlertCircleIcon, MailCheckIcon, Send, Lock } from "lucide-react";
 import { Outfit } from "next/font/google";
 import { useSearchParams } from 'next/navigation'
-import { createClient } from "@/lib/supabase/client";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useState } from "react";
-import { SIGNUP_REDIRECT_URL } from "@/lib/urls";
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+
+
 
 const outfit = Outfit({
     subsets: ["latin"],
     weight: ["300", "400", "500", "600", "700"],
 });
 
-export default function EmailConfirm() {
+export default function PasswordReset() {
     const searchParams = useSearchParams()
-    const email = searchParams.get('e')
     const [alertStatus, setAlertStatus] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
-
-    const resendEmail = async () => {
-        if (!email) {
-            return
-        }
-
-        const supabase = await createClient()
-
-        const { error } = await supabase.auth.resend({
-            type: 'signup',
-            email: email,
-            options: {
-                emailRedirectTo: SIGNUP_REDIRECT_URL
-            }
-        })
-
-        if (error) {
-            setAlertMessage(error.message);
-        } else {
-            setAlertMessage("Email resent successfully");
-        }
-
-        setAlertStatus(false)
-        setTimeout(() => setAlertStatus(true), 100)
-
-        return;
-    }
+    const [email, setEmail] = useState('');
 
     return (
         <div className={`flex flex-1 ${outfit.className} bg-[linear-gradient(to_top,#94061eff,white)] dark:bg-[linear-gradient(to_top,#94061eff,#040710FF)] text-black dark:text-white`}>
             <div className="flex flex-col gap-6 items-center justify-center mx-auto my-auto p-24 rounded-3xl bg-white/30 dark:bg-black/30 text-center shadow-lg animate-fadeIn">
-                <Send className="w-24 h-24" strokeWidth={1} />
+                <Lock className="w-24 h-24" strokeWidth={1} />
 
-                <h1 className="text-5xl font-medium">Check your email</h1>
+                <h1 className="text-5xl font-medium">Forgot your password?</h1>
 
                 <p className="text-xl">
-                    A confirmation email has been sent to <span className="font-semibold">{email}</span>.
+                    Enter your email address and we'll send you a link to reset your password.
                 </p>
 
-                <p className="text-lg">
-                    To confirm your email address, please check your inbox and click the confirmation link.
-                </p>
+
+                <div className="flex flex-col space-y-2 w-1/2">
+                    <Label htmlFor="email" className="text-lg">Email address</Label>
+                    <Input type="email" id="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+                </div>
+
 
                 <p className="text-lg">Didn't receive the email?</p>
 
@@ -69,7 +47,7 @@ export default function EmailConfirm() {
                                 hover:bg-[#040710FF] hover:text-white 
                                 hover:dark:bg-white hover:dark:text-[#040710FF]
                                 active:scale-95 transition-transform duration-100"
-                    onClick={resendEmail}
+                // onClick={resendEmail}
                 >
                     Resend confirmation email
                 </button>
